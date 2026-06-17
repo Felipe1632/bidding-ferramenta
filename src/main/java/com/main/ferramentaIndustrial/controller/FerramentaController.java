@@ -4,24 +4,26 @@
  */
 package com.main.ferramentaIndustrial.controller;
 
-import ch.qos.logback.core.model.Model;
 import com.main.ferramentaIndustrial.model.FerramentaDTO;
 import com.main.ferramentaIndustrial.repository.FerramentaRepository;
 import com.main.ferramentaIndustrial.service.FerramentaService;
+import jakarta.websocket.server.PathParam;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  *
  * @author Aluno
  */
-@RestController
+@Controller
 @RequestMapping("ferramentas")
 public class FerramentaController {
     
@@ -30,24 +32,24 @@ public class FerramentaController {
     
     @Autowired
     private FerramentaRepository repository;
-    
-    
+       
     @PostMapping("/cadastrar")
-    public String criarFerramenta(FerramentaDTO ferramenta){
-    service.criarFerramenta(ferramenta);
-    return "redirect:/listar";
+    public String criarFerramenta(@RequestBody FerramentaDTO ferramenta){
+        service.criarFerramenta(ferramenta);
+        return "listar";
     }
     
     @GetMapping("/listar")
     public String listarFerramentas(Model model){
-    service.listarFerramentas();
+    List<FerramentaDTO> ferramentas = service.listarFerramentas();
+    model.addAttribute("ferramentas", ferramentas );
     return "listar";
     }
     
-    @DeleteMapping("/deletar")
-    public String deleteById(Integer id){
+    @DeleteMapping("/deletar/{id}")
+    public String deleteById(@PathVariable int id){
         service.deleteById(id);
-        return "redirect:/listar";
+        return "listar";
     }
     
     @PutMapping("/atualizar")

@@ -9,27 +9,27 @@ package com.main.ferramentaIndustrial.model;
  * @author Aluno
  */
 public class FerramentaDTO {
-    public Integer id;
+    public Long id;
     public String nome;
-    public Integer horas_uso;
-    public Integer vidaUtilMaxima;
+    public int horas_uso;
+    public int vidaUtilMaxima;
     public Double percentualDesgaste;
     
     public FerramentaDTO() {
     }
 
-    public FerramentaDTO(Integer id, String nome, Integer horas_uso, Integer vidaUtilMaxima) {
+    public FerramentaDTO(Long id, String nome, int horas_uso, int vidaUtilMaxima) {
         this.id = id;
         this.nome = nome;
         this.horas_uso = horas_uso;
         this.vidaUtilMaxima = vidaUtilMaxima;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,19 +41,19 @@ public class FerramentaDTO {
         this.nome = nome;
     }
 
-    public Integer getHoras_uso() {
+    public int getHoras_uso() {
         return horas_uso;
     }
 
-    public void setHoras_uso(Integer horas_uso) {
+    public void setHoras_uso(int horas_uso) {
         this.horas_uso = horas_uso;
     }
 
-    public Integer getVidaUtilMaxima() {
+    public int getVidaUtilMaxima() {
         return vidaUtilMaxima;
     }
 
-    public void setVidaUtilMaxima(Integer vidaUtilMaxima) {
+    public void setVidaUtilMaxima(int vidaUtilMaxima) {
         this.vidaUtilMaxima = vidaUtilMaxima;
     }
     

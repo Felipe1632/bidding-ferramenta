@@ -4,7 +4,6 @@
  */
 package com.main.ferramentaIndustrial.repository;
 
-import ch.qos.logback.core.model.Model;
 import com.main.ferramentaIndustrial.model.FerramentaDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,19 +25,22 @@ public class FerramentaRepository {
            Connection conn = Conexao.conectar();
            PreparedStatement stmt = null;
            stmt = conn.prepareStatement("insert into tb_ferramenta (nome, horas_uso, vidaUtilMaxima) values (?, ?, ?)");
-           
            stmt.setString(1, ferramenta.getNome());
            stmt.setInt(2, ferramenta.getHoras_uso());
            stmt.setInt(3, ferramenta.getVidaUtilMaxima());
-                      
            
+           int linhasAfetadas = stmt.executeUpdate();
+           if (linhasAfetadas == 0){
+               throw new SQLException("Falha na atualização, nenhuma linha foi afetada.");
+           }
+                    
         } catch(SQLException e){
             e.printStackTrace();
         }
         return "Ferramenta Cadastrada";
     }
     
-    public List<FerramentaDTO> listarFerramentas(Model model){
+    public List<FerramentaDTO> listarFerramentas(){
      List<FerramentaDTO> list = new ArrayList();
      
      try{
@@ -51,7 +53,7 @@ public class FerramentaRepository {
          
          while(rs.next()){
              FerramentaDTO ferramenta = new FerramentaDTO();
-             ferramenta.setId(rs.getInt("id"));
+             ferramenta.setId(rs.getLong("id"));
              ferramenta.setNome(rs.getString("nome"));
              ferramenta.setHoras_uso(rs.getInt("horas_uso"));
              ferramenta.setVidaUtilMaxima(rs.getInt("vidaUtilMaxima"));
@@ -65,14 +67,19 @@ public class FerramentaRepository {
     }
     
     public String deleteById(Integer id){
+        int linhas = 0;
         try{
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
                         
             stmt = conn.prepareStatement("delete from tb_ferramenta where id = ?");            
-            stmt.setInt(1, Integer.valueOf(id));
+            stmt.setLong(1, id);
             
-            stmt.executeUpdate();
+           int linhasAfetadas = stmt.executeUpdate();
+           if (linhasAfetadas == 0){
+               throw new SQLException("Falha na atualização, nenhuma linha foi afetada.");
+           }
+           
         } catch(SQLException e) {
             e.printStackTrace();
         }
@@ -84,11 +91,15 @@ public class FerramentaRepository {
            Connection conn = Conexao.conectar();
            PreparedStatement stmt = null;
            
-           stmt = conn.prepareStatement("update db_ferramenta set nome = ?, horas_uso = ?, vidaUtilMaxima = ? where id = ?");
+           stmt = conn.prepareStatement("update tb_ferramenta set nome = ?, horas_uso = ?, vidaUtilMaxima = ? where id = ?");
            stmt.setString(1, ferramenta.getNome());
            stmt.setInt(2, ferramenta.getHoras_uso());
            stmt.setInt(3, ferramenta.getVidaUtilMaxima());
-           stmt.executeUpdate();
+           
+           int linhasAfetadas = stmt.executeUpdate();
+           if (linhasAfetadas == 0){
+               throw new SQLException("Falha na atualização, nenhuma linha foi afetada.");
+           }
            
         }catch(SQLException e){
             e.printStackTrace();
