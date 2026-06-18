@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,26 +34,40 @@ public class FerramentaController {
     @Autowired
     private FerramentaRepository repository;
        
-    @PostMapping("/cadastrar")
-    public String criarFerramenta(@RequestBody FerramentaDTO ferramenta){
-        service.criarFerramenta(ferramenta);
-        return "listar";
-    }
-    
     @GetMapping("/listar")
     public String listarFerramentas(Model model){
     List<FerramentaDTO> ferramentas = service.listarFerramentas();
-    model.addAttribute("ferramentas", ferramentas );
+    model.addAttribute("ferramentas", ferramentas);
+    model.addAttribute("ferramenta", new FerramentaDTO());
+    model.addAttribute("ferramentaAtualizar", new FerramentaDTO());
+    model.addAttribute("modoAtualizar", false);
     return "listar";
+}
+
+    @PostMapping("/cadastrar")
+    public String criarFerramenta(@ModelAttribute FerramentaDTO ferramenta){
+    service.criarFerramenta(ferramenta);
+    return "redirect:/ferramentas/listar";
     }
     
-    @DeleteMapping("/deletar/{id}")
-    public String deleteById(@PathVariable int id){
-        service.deleteById(id);
-        return "listar";
-    }
+    @GetMapping("/excluir/{id}")
+    public String excluirFerramenta(@PathVariable int id){
+    service.deleteById(id);
+    return "redirect:/ferramentas/listar";
+}   
+    //ERRO
+    @GetMapping("/atualizar/{id}")
+    public String abrirAtualizacao(@PathVariable int id, Model model){
+
+    FerramentaDTO ferramenta = service.atualizarFerramenta(id);
+
+    model.addAttribute("ferramentaAtualizar", ferramenta);
+    model.addAttribute("modoAtualizar", true);
+
+    return "listar";
+}
     
-    @PutMapping("/atualizar")
+    @PutMapping("/atualizar/{id}")
     public String atualizarFerramenta(FerramentaDTO ferramenta){
         service.atualizarFerramenta(ferramenta);
         return "redirect:/listar";

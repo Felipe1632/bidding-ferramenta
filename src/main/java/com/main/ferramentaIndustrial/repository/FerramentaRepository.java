@@ -24,7 +24,7 @@ public class FerramentaRepository {
         try{
            Connection conn = Conexao.conectar();
            PreparedStatement stmt = null;
-           stmt = conn.prepareStatement("insert into tb_ferramenta (nome, horas_uso, vidaUtilMaxima) values (?, ?, ?)");
+           stmt = conn.prepareStatement("insert into ferramenta (nome, horas_uso, vidaUtilMaxima) values (?, ?, ?)");
            stmt.setString(1, ferramenta.getNome());
            stmt.setInt(2, ferramenta.getHoras_uso());
            stmt.setInt(3, ferramenta.getVidaUtilMaxima());
@@ -48,7 +48,7 @@ public class FerramentaRepository {
          PreparedStatement stmt = null;
          ResultSet rs = null;
          
-         stmt = conn.prepareStatement("select * from tb_ferramenta");
+         stmt = conn.prepareStatement("select * from ferramenta");
          rs = stmt.executeQuery();
          
          while(rs.next()){
@@ -72,7 +72,7 @@ public class FerramentaRepository {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
                         
-            stmt = conn.prepareStatement("delete from tb_ferramenta where id = ?");            
+            stmt = conn.prepareStatement("delete from ferramenta where id = ?");            
             stmt.setLong(1, id);
             
            int linhasAfetadas = stmt.executeUpdate();
@@ -91,7 +91,7 @@ public class FerramentaRepository {
            Connection conn = Conexao.conectar();
            PreparedStatement stmt = null;
            
-           stmt = conn.prepareStatement("update tb_ferramenta set nome = ?, horas_uso = ?, vidaUtilMaxima = ? where id = ?");
+           stmt = conn.prepareStatement("update ferramenta set nome = ?, horas_uso = ?, vidaUtilMaxima = ? where id = ?");
            stmt.setString(1, ferramenta.getNome());
            stmt.setInt(2, ferramenta.getHoras_uso());
            stmt.setInt(3, ferramenta.getVidaUtilMaxima());

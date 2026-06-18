@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="card-ferramenta(f)" class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${f.nome}">Nome da Ferramenta</h5>
+            <p class="card-text">
+                <strong>Horas de Uso:</strong> <span th:text="${f.horas_uso}">0</span>h<br>
+                <strong>Vida Útil Máxima:</strong> <span th:text="${f.vidaUtilMaxima}">0</span>h
+            </p>
+            <label class="form-label small">Desgaste</label>
+            <div class="progress mb-3" style="height: 20px;">
+                <div class="progress-bar" th:classappend="${f.percentualDesgaste > 80} ? 'bg-danger' : (${f.percentualDesgaste > 50} ? 'bg-warning' : 'bg-success')"
+                     th:style="'width: ' + ${f.percentualDesgaste} + '%'"
+                     th:text="${#numbers.formatDecimal(f.percentualDesgaste, 0, 0)}"
+                     role="progressbar"
+                     th:aria-valuenow="${f.percentualDesgaste}"
+                     aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            <a class="btn btn-sm btn-danger" th:href="@{/ferramentas/excluir/{id}(id=${f.id})}">
+                Descartar
+            </a>
+            <a class="btn btn-sm btn-danger" th:href="@{atualizar/{id}(id=${f.id})}">
+                Atualizar
+            </a>
+        </div>
+    </div>
+</div>
+</html>
